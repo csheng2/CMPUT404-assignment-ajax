@@ -75,13 +75,16 @@ function drawCircle(context,entity) {
         var x = entity["x"];
         var y = entity["y"];
         //moveTo(x,y);
+        // we position x as x - image.width/2 and y as y - image.height/2 to make the mouse
+        // centered with the image.
         if(entity['img'] == 'star'){
-            context.drawImage(starImg, x-starImg.width/2, y-starImg.height/2, starImg.width, starImg.height);
+            context.drawImage(starImg, x - starImg.width/2, y - starImg.height/2, starImg.width, starImg.height);
         } else if (entity['img'] == 'smile') {
-            context.drawImage(smileImg, x-smileImg.width/2, y-smileImg.height/2, smileImg.width, smileImg.height);
+            context.drawImage(smileImg, x - smileImg.width/2, y - smileImg.height/2, smileImg.width, smileImg.height);
         } else if (entity['img'] == 'red-smile') {
-            context.drawImage(redSmileImg, x-redSmileImg.width/2, y-redSmileImg.height/2, redSmileImg.width, redSmileImg.height);
-        } else { // default
+            context.drawImage(redSmileImg, x - redSmileImg.width/2, y - redSmileImg.height/2, redSmileImg.width, redSmileImg.height);
+        } else {
+            // default to circles
             beginPath();              
             lineWidth = 3;
             fillStyle = entity["colour"];
