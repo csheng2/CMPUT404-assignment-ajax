@@ -31,7 +31,7 @@ var context = canvas.getContext("2d");
 var W = canvas.width  = window.innerWidth-6;
 var H = canvas.height = window.innerHeight-50;
 
-// Added images
+// Add images
 var starImg = new Image(60, 60);
 var smileImg = new Image(100, 100);
 var redSmileImg = new Image(100, 100);
@@ -74,9 +74,8 @@ function drawCircle(context,entity) {
     with(context) {
         var x = entity["x"];
         var y = entity["y"];
-        //moveTo(x,y);
-        // we position x as x - image.width/2 and y as y - image.height/2 to make the mouse
-        // centered with the image.
+        // moveTo(x,y);
+        // we position x as x - image.width/2 and y as y - image.height/2 to make the mouse centered with the image.
         if(entity['img'] == 'star'){
             context.drawImage(starImg, x - starImg.width/2, y - starImg.height/2, starImg.width, starImg.height);
         } else if (entity['img'] == 'smile') {
