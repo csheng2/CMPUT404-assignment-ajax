@@ -31,6 +31,14 @@ var context = canvas.getContext("2d");
 var W = canvas.width  = window.innerWidth-6;
 var H = canvas.height = window.innerHeight-50;
 
+// Added images
+var starImg = new Image(60, 60);
+var smileImg = new Image(100, 100);
+var redSmileImg = new Image(100, 100);
+starImg.src = 'smiling_star.png'
+smileImg.src = 'smile.png'
+redSmileImg.src = 'red_smile.png'
+
 
 function sendJSONXMLHTTPRequest(url, objects, callback) {
     var xhr = new XMLHttpRequest();
@@ -50,9 +58,9 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
         }
     };
     //XXX: POST to a URL
+    xhr.open('POST', `http://${host}/${url}`);    
     //XXX: set the mimetype and the accept headers!
     // Remember to use application/json !
-    xhr.open('POST', `http://${host}/${url}`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Accept', 'application/json');
     xhr.send(JSON.stringify(objects));
@@ -64,15 +72,23 @@ world = {};
 //XXX: TODO Make this prettier!
 function drawCircle(context,entity) {
     with(context) {
-        beginPath();              
-        lineWidth = 3;
         var x = entity["x"];
         var y = entity["y"];
         //moveTo(x,y);
-        fillStyle = entity["colour"];
-        strokeStyle = fillStyle;
-        arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 2.0 * Math.PI, false);  
-        stroke();                                
+        if(entity['img'] == 'star'){
+            context.drawImage(starImg, x-starImg.width/2, y-starImg.height/2, starImg.width, starImg.height);
+        } else if (entity['img'] == 'smile') {
+            context.drawImage(smileImg, x-smileImg.width/2, y-smileImg.height/2, smileImg.width, smileImg.height);
+        } else if (entity['img'] == 'red-smile') {
+            context.drawImage(redSmileImg, x-redSmileImg.width/2, y-redSmileImg.height/2, redSmileImg.width, redSmileImg.height);
+        } else { // default
+            beginPath();              
+            lineWidth = 3;
+            fillStyle = entity["colour"];
+            strokeStyle = fillStyle;
+            arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 2.0 * Math.PI, false);  
+            stroke();                                
+        }
     }
 }
 
@@ -253,15 +269,15 @@ mouse = (function() {
 // Add the application specific mouse listeners!
 //XXX: TODO Make these prettier!
 mouse.mousedowners.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'blue'});
+    addEntityWithoutName({'x':x,'y':y,'img':'smile'});
 });
 
 mouse.mouseuppers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'red'});
+    addEntityWithoutName({'x':x,'y':y,'img':'red-smile'});
 });
 
 mouse.mousedraggers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'green',
+    addEntityWithoutName({'x':x,'y':y,'img':'star',
                           'radius':10});
 });
 
